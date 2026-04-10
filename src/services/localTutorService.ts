@@ -43,9 +43,12 @@ export function speakText(text: string) {
 
   // Try to find a high-quality, natural-sounding English voice
   const voices = window.speechSynthesis.getVoices();
-  const preferredVoice = voices.find(v => v.name.includes('Premium') && v.lang.startsWith('en')) ||
+  
+  // Prioritize Enhanced/Premium voices, especially on iOS/macOS
+  const preferredVoice = voices.find(v => v.name.includes('Enhanced') && v.lang.startsWith('en')) ||
+                         voices.find(v => v.name.includes('Premium') && v.lang.startsWith('en')) ||
                          voices.find(v => v.name.includes('Natural') && v.lang.startsWith('en')) ||
-                         voices.find(v => (v.name.includes('Samantha') || v.name.includes('Daniel') || v.name.includes('Karen') || v.name.includes('Moira')) && v.lang.startsWith('en')) ||
+                         voices.find(v => (v.name.includes('Samantha') || v.name.includes('Daniel') || v.name.includes('Arthur') || v.name.includes('Martha')) && v.lang.startsWith('en')) ||
                          voices.find(v => v.lang === 'en-GB' && v.name.includes('Google')) ||
                          voices.find(v => v.lang === 'en-US' && v.name.includes('Google')) || 
                          voices.find(v => v.lang.startsWith('en'));
