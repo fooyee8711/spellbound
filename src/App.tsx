@@ -53,7 +53,7 @@ export default function App() {
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-gradient-to-br from-[#1a365d] to-[#0a192f] text-white' : 'bg-white text-ink'}`}>
-      <div className="max-w-4xl mx-auto px-4 pt-20 pb-8 sm:py-12">
+      <div className="max-w-4xl mx-auto px-4 pt-32 pb-8 sm:pt-12 sm:pb-12">
         <div className="flex justify-between sm:justify-end items-center gap-2 mb-6">
           <button 
             onClick={view === 'settings' ? () => setView('learning') : handlePrevWord} 
