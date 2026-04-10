@@ -37,15 +37,18 @@ export function speakText(text: string) {
   utterance.lang = 'en-US';
   
   // Adjust rate for better clarity in learning
-  // Syllables/short sounds should be slower
-  utterance.rate = text.length <= 3 ? 0.6 : 0.85;
-  utterance.pitch = 1.1; // Slightly higher pitch for a "magical" feel
+  // Syllables/short sounds should be slower, but keep it natural
+  utterance.rate = text.length <= 3 ? 0.8 : 0.95;
+  utterance.pitch = 1.0; // Natural human pitch
 
-  // Try to find a high-quality English voice
+  // Try to find a high-quality, natural-sounding English voice
   const voices = window.speechSynthesis.getVoices();
-  const preferredVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Google')) || 
-                        voices.find(v => v.lang === 'en-US' && v.name.includes('Female')) ||
-                        voices.find(v => v.lang.startsWith('en'));
+  const preferredVoice = voices.find(v => v.name.includes('Premium') && v.lang.startsWith('en')) ||
+                         voices.find(v => v.name.includes('Natural') && v.lang.startsWith('en')) ||
+                         voices.find(v => (v.name.includes('Samantha') || v.name.includes('Daniel') || v.name.includes('Karen') || v.name.includes('Moira')) && v.lang.startsWith('en')) ||
+                         voices.find(v => v.lang === 'en-GB' && v.name.includes('Google')) ||
+                         voices.find(v => v.lang === 'en-US' && v.name.includes('Google')) || 
+                         voices.find(v => v.lang.startsWith('en'));
   
   if (preferredVoice) {
     utterance.voice = preferredVoice;

@@ -53,31 +53,32 @@ export default function App() {
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-gradient-to-br from-[#1a365d] to-[#0a192f] text-white' : 'bg-white text-ink'}`}>
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <header className="relative text-center mb-12">
-          <div className="absolute top-0 right-0 flex items-center gap-2">
-            <button 
-              onClick={view === 'settings' ? () => setView('learning') : handlePrevWord} 
-              className="p-1.5 text-magic-gold hover:bg-magic-gold/10 rounded-full transition-colors"
-              title="Go Back"
-            >
-              <ArrowLeft size={24} />
+      <div className="max-w-4xl mx-auto px-4 py-6 sm:py-12">
+        <div className="flex justify-end items-center gap-2 mb-6">
+          <button 
+            onClick={view === 'settings' ? () => setView('learning') : handlePrevWord} 
+            className="p-2 text-magic-gold hover:bg-magic-gold/10 rounded-full transition-colors"
+            title="Go Back"
+          >
+            <ArrowLeft size={28} />
+          </button>
+          {view === 'learning' && (
+            <button onClick={() => setView('settings')} className="p-2 text-magic-gold hover:bg-magic-gold/10 rounded-full transition-colors">
+              <Settings size={28} />
             </button>
-            {view === 'learning' && (
-              <button onClick={() => setView('settings')} className="p-1.5 text-magic-gold hover:bg-magic-gold/10 rounded-full transition-colors">
-                <Settings size={24} />
-              </button>
-            )}
-          </div>
+          )}
+        </div>
+        
+        <header className="text-center mb-10">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-center gap-3 mb-2"
+            className="flex items-center justify-center gap-2 sm:gap-3 mb-2"
           >
-            <Wand2 className="text-magic-gold w-8 h-8" />
-            <h1 className="text-5xl font-bold text-magic-gold tracking-widest uppercase">SpellBound</h1>
+            <Wand2 className="text-magic-gold w-6 h-6 sm:w-8 sm:h-8" />
+            <h1 className="text-3xl sm:text-5xl font-bold text-magic-gold tracking-widest uppercase">SpellBound</h1>
           </motion.div>
-          <p className="text-magic-gold/70 italic text-lg">Master the language, unleash the magic</p>
+          <p className="text-magic-gold/70 italic text-sm sm:text-lg">Master the language, unleash the magic</p>
         </header>
 
         <main>
