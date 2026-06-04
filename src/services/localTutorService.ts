@@ -60,6 +60,22 @@ export function speakText(text: string) {
   window.speechSynthesis.speak(utterance);
 }
 
+export function getCurrentVoiceName(): string {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return 'Not supported';
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length === 0) return 'Loading voices...';
+  
+  const preferredVoice = voices.find(v => v.name.includes('Enhanced') && v.lang.startsWith('en')) ||
+                         voices.find(v => v.name.includes('Premium') && v.lang.startsWith('en')) ||
+                         voices.find(v => v.name.includes('Natural') && v.lang.startsWith('en')) ||
+                         voices.find(v => (v.name.includes('Samantha') || v.name.includes('Daniel') || v.name.includes('Arthur') || v.name.includes('Martha')) && v.lang.startsWith('en')) ||
+                         voices.find(v => v.lang === 'en-GB' && v.name.includes('Google')) ||
+                         voices.find(v => v.lang === 'en-US' && v.name.includes('Google')) || 
+                         voices.find(v => v.lang.startsWith('en'));
+                         
+  return preferredVoice ? preferredVoice.name : 'Default System Voice';
+}
+
 // Pre-load voices (some browsers need this)
 if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
   window.speechSynthesis.getVoices();

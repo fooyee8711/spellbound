@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { BookOpen, ChevronRight, Wand2, HelpCircle, Volume2, Settings, BarChart3, RotateCcw, Palette, Moon, Sun, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { WORDS } from './constants';
-import { speakText } from './services/localTutorService';
+import { speakText, getCurrentVoiceName } from './services/localTutorService';
 
 export default function App() {
   const [view, setView] = useState<'learning' | 'settings'>('learning');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showHint, setShowHint] = useState(false);
+  const [voiceName, setVoiceName] = useState<string>('Loading...');
   const [learnedWords, setLearnedWords] = useState<string[]>(() => {
     const saved = localStorage.getItem('learnedWords');
     return saved ? JSON.parse(saved) : [];
@@ -17,6 +18,14 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('learnedWords', JSON.stringify(learnedWords));
   }, [learnedWords]);
+
+  useEffect(() => {
+    const updateVoice = () => setVoiceName(getCurrentVoiceName());
+    updateVoice();
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = updateVoice;
+    }
+  }, []);
 
   const unlearnedWords = WORDS.filter(w => !learnedWords.includes(w.id));
   const safeIndex = Math.min(currentIndex, Math.max(0, unlearnedWords.length - 1));
@@ -104,6 +113,14 @@ export default function App() {
                     {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
                     {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
                   </button>
+                </div>
+
+                <div className="p-3 bg-ink/5 rounded-lg flex items-center gap-3">
+                  <Volume2 className="text-magic-gold" />
+                  <div>
+                    <h3 className="font-bold">Current Voice</h3>
+                    <p className="text-sm text-ink/60">{voiceName}</p>
+                  </div>
                 </div>
 
                 <div className="p-3 bg-ink/5 rounded-lg">
